@@ -1,7 +1,6 @@
 // routes
 import { PATH_DASHBOARD } from '../../../routes/paths';
 // components
-import Label from '../../../components/Label';
 import SvgIconStyle from '../../../components/SvgIconStyle';
 
 // ----------------------------------------------------------------------
@@ -27,9 +26,8 @@ const navConfig = [
   // GENERAL
   // ----------------------------------------------------------------------
   {
-    subheader: 'general',
+    // subheader: 'general',
     items: [
-      // { title: 'app', path: PATH_DASHBOARD.general.app, icon: ICONS.dashboard },
       { title: 'Dashboard', path: PATH_DASHBOARD.general.app, icon: ICONS.dashboard },
     ],
   },
@@ -37,7 +35,7 @@ const navConfig = [
   // MANAGEMENT
   // ----------------------------------------------------------------------
   {
-    subheader: 'management',
+    // subheader: 'management',
     items: [
       // MANAGEMENT : USER
       {
@@ -69,45 +67,9 @@ const navConfig = [
           { title: 'invoice', path: PATH_DASHBOARD.eCommerce.invoice },
         ],
       },
+    ]
+  }
 
-      // MANAGEMENT : BLOG
-      // {
-      //   title: 'blog',
-      //   path: PATH_DASHBOARD.blog.root,
-      //   icon: ICONS.blog,
-      //   children: [
-      //     { title: 'posts', path: PATH_DASHBOARD.blog.posts },
-      //     { title: 'post', path: PATH_DASHBOARD.blog.postById },
-      //     { title: 'new post', path: PATH_DASHBOARD.blog.newPost },
-      //   ],
-      // },
-    ],
-  },
-
-  // APP
-  // ----------------------------------------------------------------------
-  // {
-  //   subheader: 'app',
-  //   items: [
-  //     {
-  //       title: 'mail',
-  //       path: PATH_DASHBOARD.mail.root,
-  //       icon: ICONS.mail,
-  //       info: (
-  //         <Label variant="outlined" color="error">
-  //           +32
-  //         </Label>
-  //       ),
-  //     },
-  //     { title: 'chat', path: PATH_DASHBOARD.chat.root, icon: ICONS.chat },
-  //     { title: 'calendar', path: PATH_DASHBOARD.calendar, icon: ICONS.calendar },
-  //     {
-  //       title: 'kanban',
-  //       path: PATH_DASHBOARD.kanban,
-  //       icon: ICONS.kanban,
-  //     },
-  //   ],
-  // },
 ];
 
 export default navConfig;
