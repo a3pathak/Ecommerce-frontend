@@ -1,5 +1,6 @@
 import { sentenceCase } from 'change-case';
 import { useState, useEffect } from 'react';
+import {Link as RouterLink} from 'react-router-dom';
 // @mui
 import { useTheme } from '@mui/material/styles';
 import {
@@ -14,6 +15,7 @@ import {
   Typography,
   TableContainer,
   TablePagination,
+  Button
 } from '@mui/material';
 // redux
 import { useDispatch, useSelector } from '../../redux/store';
@@ -146,6 +148,9 @@ export default function EcommerceProductList() {
             },
             { name: 'Product List' },
           ]}
+          action={
+            <Button variant='contained' component={RouterLink} to={PATH_DASHBOARD.eCommerce.newProduct}>Product</Button>
+          }
         />
 
         <Card>

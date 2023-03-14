@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link as RouterLink } from 'react-router-dom';
 // @mui
 import { styled, useTheme } from '@mui/material/styles';
 import { Box, Button, AppBar, Toolbar, Container } from '@mui/material';
@@ -16,6 +16,7 @@ import Label from '../../components/Label';
 import MenuDesktop from './MenuDesktop';
 import MenuMobile from './MenuMobile';
 import navConfig from './MenuConfig';
+import { PATH_AUTH } from '../../routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -85,11 +86,10 @@ export default function MainHeader() {
 
           <Button
             variant="contained"
-            target="_blank"
-            rel="noopener"
-            href="https://material-ui.com/store/items/minimal-dashboard/"
+            component={RouterLink}
+            to={PATH_AUTH.register}
           >
-            Purchase Now
+            Register Now
           </Button>
 
           {!isDesktop && <MenuMobile isOffset={isOffset} isHome={isHome} navConfig={navConfig} />}

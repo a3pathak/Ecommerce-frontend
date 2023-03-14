@@ -13,13 +13,13 @@ import Iconify from '../../../components/Iconify';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(RouterLink)(({ theme }) => ({
-  zIndex: 999,
-  right: 0,
+  // zIndex: 999,
+  top: 2,
   display: 'flex',
   cursor: 'pointer',
   position: 'fixed',
   alignItems: 'center',
-  top: theme.spacing(16),
+  // top: theme.spacing(16),
   height: theme.spacing(5),
   paddingLeft: theme.spacing(2),
   paddingRight: theme.spacing(2),
