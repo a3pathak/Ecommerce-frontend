@@ -42,10 +42,10 @@ export default function NavSectionVertical({ navConfig, isCollapse = false, ...o
             {group.subheader}
           </ListSubheaderStyle>
 
-          {group.items.map((list) => (
+          {group.items?.map((list) => (
             <NavListRoot key={list.title} list={list} isCollapse={isCollapse} />
           ))}
-        </List>
+        </List> 
       ))}
     </Box>
   );

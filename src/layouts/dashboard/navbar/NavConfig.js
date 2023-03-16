@@ -26,44 +26,14 @@ const navConfig = [
   // GENERAL
   // ----------------------------------------------------------------------
   {
-    // subheader: 'general',
     items: [
-      { title: 'Dashboard', path: PATH_DASHBOARD.general.app, icon: ICONS.dashboard },
+      { title: 'Dashboard', path: PATH_DASHBOARD.general.app, icon: ICONS.dashboard},
+      { title: 'Profile', path: PATH_DASHBOARD.user.profile, icon: ICONS.blog },
+      { title: 'Users', path: PATH_DASHBOARD.user.list, icon: ICONS.user },
+      { title: 'Products', path: PATH_DASHBOARD.eCommerce.list, icon: ICONS.cart },
+      { title: 'Setting', path: PATH_DASHBOARD.eCommerce.list, icon: ICONS.booking },
+      { title: 'Notification', path: PATH_DASHBOARD.eCommerce.list, icon: ICONS.analytics },
     ],
-  },
-
-  // MANAGEMENT
-  // ----------------------------------------------------------------------
-  {
-    // subheader: 'management',
-    items: [
-      // MANAGEMENT : USER
-      {
-        title: 'user',
-        path: PATH_DASHBOARD.user.root,
-        icon: ICONS.user,
-        children: [
-          { title: 'profile', path: PATH_DASHBOARD.user.profile },
-          { title: 'cards', path: PATH_DASHBOARD.user.cards },
-          { title: 'list', path: PATH_DASHBOARD.user.list },
-          { title: 'create', path: PATH_DASHBOARD.user.newUser },
-          { title: 'edit', path: PATH_DASHBOARD.user.editById },
-          { title: 'account', path: PATH_DASHBOARD.user.account },
-        ],
-      },
-
-      // MANAGEMENT : E-COMMERCE
-      {
-        title: 'e-commerce',
-        path: PATH_DASHBOARD.eCommerce.root,
-        icon: ICONS.cart,
-        children: [
-          { title: 'Products', path: PATH_DASHBOARD.eCommerce.list },
-          { title: 'checkout', path: PATH_DASHBOARD.eCommerce.checkout },
-          { title: 'invoice', path: PATH_DASHBOARD.eCommerce.invoice },
-        ],
-      },
-    ]
   }
 
 ];
