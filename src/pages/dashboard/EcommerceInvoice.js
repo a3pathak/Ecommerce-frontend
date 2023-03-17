@@ -16,7 +16,7 @@ import {
   TableContainer,
 } from '@mui/material';
 // routes
-import { PATH_DASHBOARD } from '../../routes/paths';
+// import { PATH_DASHBOARD } from '../../routes/paths';
 // utils
 import { fCurrency } from '../../utils/formatNumber';
 // _mock_
@@ -28,7 +28,7 @@ import Page from '../../components/Page';
 import Label from '../../components/Label';
 import Image from '../../components/Image';
 import Scrollbar from '../../components/Scrollbar';
-import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
+// import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 // sections
 import { InvoiceToolbar } from '../../sections/@dashboard/e-commerce/invoice';
 

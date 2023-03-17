@@ -8,7 +8,8 @@ import { Grid, Button } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // redux
 import { useDispatch, useSelector } from '../../../../redux/store';
-import { onGotoStep, onBackStep, onNextStep, applyShipping } from '../../../../redux/slices/product';
+// import { onGotoStep, onBackStep, onNextStep, applyShipping } from '../../../../redux/slices/product';
+import { onGotoStep, onBackStep, applyShipping } from '../../../../redux/slices/product';
 // components
 import Iconify from '../../../../components/Iconify';
 import { FormProvider } from '../../../../components/hook-form';
@@ -71,9 +72,9 @@ export default function CheckoutPayment() {
 
   const { total, discount, subtotal, shipping } = checkout;
 
-  const handleNextStep = () => {
-    dispatch(onNextStep());
-  };
+  // const handleNextStep = () => {
+  //   dispatch(onNextStep());
+  // };
 
   const handleBackStep = () => {
     dispatch(onBackStep());

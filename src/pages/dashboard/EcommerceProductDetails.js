@@ -1,4 +1,4 @@
-import { sentenceCase } from 'change-case';
+// import { sentenceCase } from 'change-case';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 // @mui
@@ -9,7 +9,7 @@ import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { useDispatch, useSelector } from '../../redux/store';
 import { getProduct, addCart, onGotoStep } from '../../redux/slices/product';
 // routes
-import { PATH_DASHBOARD } from '../../routes/paths';
+// import { PATH_DASHBOARD } from '../../routes/paths';
 // hooks
 import useSettings from '../../hooks/useSettings';
 // components
@@ -17,7 +17,7 @@ import Page from '../../components/Page';
 import Iconify from '../../components/Iconify';
 import Markdown from '../../components/Markdown';
 import { SkeletonProduct } from '../../components/skeleton';
-import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
+// import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 // sections
 import {
   ProductDetailsSummary,
