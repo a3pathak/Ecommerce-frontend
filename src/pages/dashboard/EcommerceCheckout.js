@@ -97,9 +97,9 @@ export default function EcommerceCheckout() {
   }, [dispatch, activeStep]);
 
   return (
-    <Page title="Ecommerce: Checkout">
+    <Page title="Ecommerce: Checkout" sx={{my: 15}}>
       <Container maxWidth={themeStretch ? false : 'lg'}>
-        <HeaderBreadcrumbs
+        {/* <HeaderBreadcrumbs
           heading="Checkout"
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
@@ -109,7 +109,7 @@ export default function EcommerceCheckout() {
             },
             { name: 'Checkout' },
           ]}
-        />
+        /> */}
 
         <Grid container justifyContent={isComplete ? 'center' : 'flex-start'}>
           <Grid item xs={12} md={8} sx={{ mb: 5 }}>

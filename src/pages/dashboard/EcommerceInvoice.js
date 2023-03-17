@@ -51,9 +51,9 @@ export default function EcommerceInvoice() {
   const total = subTotal - _invoice.discount + _invoice.taxes;
 
   return (
-    <Page title="Ecommerce: Invoice">
+    <Page title="Ecommerce: Invoice" sx={{my: 15}}>
       <Container maxWidth={themeStretch ? false : 'lg'}>
-        <HeaderBreadcrumbs
+        {/* <HeaderBreadcrumbs
           heading="Invoice Details"
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
@@ -63,7 +63,7 @@ export default function EcommerceInvoice() {
             },
             { name: 'Invoice' },
           ]}
-        />
+        /> */}
 
         <InvoiceToolbar invoice={_invoice} />
 

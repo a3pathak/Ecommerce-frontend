@@ -100,7 +100,8 @@ export default function ProductDetailsSummary({ cart, product, onAddCart, onGoto
         });
       }
       onGotoStep(0);
-      navigate(PATH_DASHBOARD.eCommerce.checkout);
+      // navigate(PATH_DASHBOARD.eCommerce.checkout);
+      navigate("/checkout");
     } catch (error) {
       console.error(error);
     }

@@ -1,137 +1,255 @@
-import { capitalCase } from 'change-case';
-import { Link as RouterLink } from 'react-router-dom';
+// import { capitalCase } from 'change-case';
+// import { Link as RouterLink } from 'react-router-dom';
+// // @mui
+// import { styled } from '@mui/material/styles';
+// import { Box, Card, Stack, Link, Alert, Tooltip, Container, Typography } from '@mui/material';
+// // routes
+// import { PATH_AUTH } from '../../routes/paths';
+// // hooks
+// import useAuth from '../../hooks/useAuth';
+// import useResponsive from '../../hooks/useResponsive';
+// // components
+// import Page from '../../components/Page';
+// import Logo from '../../components/Logo';
+// import Image from '../../components/Image';
+// // sections
+// import { LoginForm } from '../../sections/auth/login';
+
+// // ----------------------------------------------------------------------
+
+// const RootStyle = styled('div')(({ theme }) => ({
+//   [theme.breakpoints.up('md')]: {
+//     display: 'flex',
+//   },
+// }));
+
+// const HeaderStyle = styled('header')(({ theme }) => ({
+//   top: 0,
+//   zIndex: 9,
+//   lineHeight: 0,
+//   width: '100%',
+//   display: 'flex',
+//   alignItems: 'center',
+//   position: 'absolute',
+//   padding: theme.spacing(3),
+//   justifyContent: 'space-between',
+//   [theme.breakpoints.up('md')]: {
+//     alignItems: 'flex-start',
+//     padding: theme.spacing(7, 5, 0, 7),
+//   },
+// }));
+
+// const SectionStyle = styled(Card)(({ theme }) => ({
+//   width: '100%',
+//   maxWidth: 464,
+//   display: 'flex',
+//   flexDirection: 'column',
+//   justifyContent: 'center',
+//   margin: theme.spacing(2, 0, 2, 2),
+// }));
+
+// const ContentStyle = styled('div')(({ theme }) => ({
+//   maxWidth: 480,
+//   margin: 'auto',
+//   display: 'flex',
+//   minHeight: '100vh',
+//   flexDirection: 'column',
+//   justifyContent: 'center',
+//   padding: theme.spacing(12, 0),
+// }));
+
+// // ----------------------------------------------------------------------
+
+// export default function Login() {
+//   const { method } = useAuth();
+
+//   const smUp = useResponsive('up', 'sm');
+
+//   const mdUp = useResponsive('up', 'md');
+
+//   return (
+//     <Page title="Login">
+//       <RootStyle>
+//         <HeaderStyle>
+//           <Logo />
+//           {smUp && (
+//             <Typography variant="body2" sx={{ mt: { md: -2 } }}>
+//               Don’t have an account? {''}
+//               <Link variant="subtitle2" component={RouterLink} to={PATH_AUTH.register}>
+//                 Get started
+//               </Link>
+//             </Typography>
+//           )}
+//         </HeaderStyle>
+
+//         {mdUp && (
+//           <SectionStyle>
+//             <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
+//               Hi, Welcome Back
+//             </Typography>
+//             <Image
+//               alt="login"
+//               src="https://minimal-assets-api.vercel.app/assets/illustrations/illustration_login.png"
+//             />
+//           </SectionStyle>
+//         )}
+
+//         <Container maxWidth="sm">
+//           <ContentStyle>
+//             <Stack direction="row" alignItems="center" sx={{ mb: 5 }}>
+//               <Box sx={{ flexGrow: 1 }}>
+//                 <Typography variant="h4" gutterBottom>
+//                   Sign in to Minimal
+//                 </Typography>
+//                 <Typography sx={{ color: 'text.secondary' }}>Enter your details below.</Typography>
+//               </Box>
+
+//               <Tooltip title={capitalCase(method)} placement="right">
+//                 <>
+//                   <Image
+//                     disabledEffect
+//                     src={`https://minimal-assets-api.vercel.app/assets/icons/auth/ic_${method}.png`}
+//                     sx={{ width: 32, height: 32 }}
+//                   />
+//                 </>
+//               </Tooltip>
+//             </Stack>
+
+//             <Alert severity="info" sx={{ mb: 3 }}>
+//               Use email : <strong>demo@minimals.cc</strong> / password :<strong> demo1234</strong>
+//             </Alert>
+
+//             <LoginForm />
+
+//             {!smUp && (
+//               <Typography variant="body2" align="center" sx={{ mt: 3 }}>
+//                 Don’t have an account?{' '}
+//                 <Link variant="subtitle2" component={RouterLink} to={PATH_AUTH.register}>
+//                   Get started
+//                 </Link>
+//               </Typography>
+//             )}
+//           </ContentStyle>
+//         </Container>
+//       </RootStyle>
+//     </Page>
+//   );
+// }
+
+import * as Yup from 'yup';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
+// form
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+
 // @mui
-import { styled } from '@mui/material/styles';
-import { Box, Card, Stack, Link, Alert, Tooltip, Container, Typography } from '@mui/material';
-// routes
-import { PATH_AUTH } from '../../routes/paths';
-// hooks
-import useAuth from '../../hooks/useAuth';
-import useResponsive from '../../hooks/useResponsive';
+import { Stack, Card, Typography, Box, Divider, Link } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 // components
-import Page from '../../components/Page';
-import Logo from '../../components/Logo';
-import Image from '../../components/Image';
-// sections
-import { LoginForm } from '../../sections/auth/login';
+import { FormProvider, RHFCheckbox, RHFTextField } from '../../components/hook-form';
+import { PATH_DASHBOARD, PATH_AUTH } from '../../routes/paths';
 
 // ----------------------------------------------------------------------
-
-const RootStyle = styled('div')(({ theme }) => ({
-  [theme.breakpoints.up('md')]: {
-    display: 'flex',
-  },
-}));
-
-const HeaderStyle = styled('header')(({ theme }) => ({
-  top: 0,
-  zIndex: 9,
-  lineHeight: 0,
-  width: '100%',
-  display: 'flex',
-  alignItems: 'center',
-  position: 'absolute',
-  padding: theme.spacing(3),
-  justifyContent: 'space-between',
-  [theme.breakpoints.up('md')]: {
-    alignItems: 'flex-start',
-    padding: theme.spacing(7, 5, 0, 7),
-  },
-}));
-
-const SectionStyle = styled(Card)(({ theme }) => ({
-  width: '100%',
-  maxWidth: 464,
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  margin: theme.spacing(2, 0, 2, 2),
-}));
-
-const ContentStyle = styled('div')(({ theme }) => ({
-  maxWidth: 480,
-  margin: 'auto',
-  display: 'flex',
-  minHeight: '100vh',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  padding: theme.spacing(12, 0),
-}));
-
-// ----------------------------------------------------------------------
-
 export default function Login() {
-  const { method } = useAuth();
 
-  const smUp = useResponsive('up', 'sm');
+  const navigate = useNavigate();
 
-  const mdUp = useResponsive('up', 'md');
+  const style = {
+    layout: {
+      width: '100%',
+      height: '100vh',
+      background: '#a29bfe',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    formLayout: {
+      width: '25%',
+      margin: 5
+    },
+    button: {
+      background: '#e84393',
+      color: 'white',
+      mt:3,
+      width: '100%'
+    }
+  }
+
+  const UpdateLoginSchema = Yup.object().shape({
+    userName: Yup.string().required("This is a required field"),
+    password: Yup.string().required("This is a required field")
+  });
+
+  const defaultValues = {
+    userName: '',
+    password: '',
+    remember: true
+  };
+
+  const methods = useForm({
+    resolver: yupResolver(UpdateLoginSchema),
+    defaultValues,
+  });
+
+  const {
+    reset,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = methods;
+
+  const onSubmit = async (data) => {
+    try {
+      console.log(data);
+      navigate(PATH_DASHBOARD.form.root);
+    } catch (error) {
+      reset();
+    }
+  };
 
   return (
-    <Page title="Login">
-      <RootStyle>
-        <HeaderStyle>
-          <Logo />
-          {smUp && (
-            <Typography variant="body2" sx={{ mt: { md: -2 } }}>
-              Don’t have an account? {''}
-              <Link variant="subtitle2" component={RouterLink} to={PATH_AUTH.register}>
-                Get started
-              </Link>
-            </Typography>
-          )}
-        </HeaderStyle>
+    <Box sx={style.layout}>
+      <Card sx={style.formLayout} spacing={5}>
+        <Box sx={{ m: 5 }}>
+          <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
 
-        {mdUp && (
-          <SectionStyle>
-            <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-              Hi, Welcome Back
-            </Typography>
-            <Image
-              alt="login"
-              src="https://minimal-assets-api.vercel.app/assets/illustrations/illustration_login.png"
-            />
-          </SectionStyle>
-        )}
+            <Typography variant='h4'>LOGIN</Typography>
 
-        <Container maxWidth="sm">
-          <ContentStyle>
-            <Stack direction="row" alignItems="center" sx={{ mb: 5 }}>
-              <Box sx={{ flexGrow: 1 }}>
-                <Typography variant="h4" gutterBottom>
-                  Sign in to Minimal
-                </Typography>
-                <Typography sx={{ color: 'text.secondary' }}>Enter your details below.</Typography>
+            <Box
+              sx={{
+                display: 'grid',
+                rowGap: 2,
+                mt: 2,
+                gridTemplateColumns: { xs: 'repeat(1,1fr)', sm: 'repeat(1, 1fr)' }
+              }}
+            >
+              <RHFTextField name="userName" label="User Name" size="small"/>
+              <RHFTextField name="password" label="Password" size="small"/>
+            
+              <Box sx={{display:'flex'}}>
+                <RHFCheckbox name="remember" label="Remember me" defaultChecked />
               </Box>
+            
+            </Box>
 
-              <Tooltip title={capitalCase(method)} placement="right">
-                <>
-                  <Image
-                    disabledEffect
-                    src={`https://minimal-assets-api.vercel.app/assets/icons/auth/ic_${method}.png`}
-                    sx={{ width: 32, height: 32 }}
-                  />
-                </>
-              </Tooltip>
+            <LoadingButton type="submit" sx={style.button} loading={isSubmitting}>
+              LOGIN
+            </LoadingButton>
+            
+            <Stack alignItems='flex-end' sx={{my:1}}>
+              Forgot Password?
             </Stack>
-
-            <Alert severity="info" sx={{ mb: 3 }}>
-              Use email : <strong>demo@minimals.cc</strong> / password :<strong> demo1234</strong>
-            </Alert>
-
-            <LoginForm />
-
-            {!smUp && (
-              <Typography variant="body2" align="center" sx={{ mt: 3 }}>
-                Don’t have an account?{' '}
-                <Link variant="subtitle2" component={RouterLink} to={PATH_AUTH.register}>
-                  Get started
-                </Link>
-              </Typography>
-            )}
-          </ContentStyle>
-        </Container>
-      </RootStyle>
-    </Page>
+            
+            <Divider>
+              <Typography sx={{ border: '1px solid grey', borderRadius: 1, padding: 'none', p: '3px'}}>OR</Typography>
+            </Divider>
+            
+            <Stack alignItems="center" sx={{mt: 3}}>
+              <Typography>Need an account? <Link component={RouterLink} to={PATH_AUTH.register}>SIGN UP</Link></Typography>
+            </Stack>
+        
+          </FormProvider>
+        </Box>
+      </Card>
+    </Box>
   );
 }

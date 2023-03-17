@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import orderBy from 'lodash/orderBy';
 // @mui
 // import { styled } from '@mui/material/styles';
-import { Container, Typography, Stack } from '@mui/material';
+import { Container, Typography, Stack, Box, Pagination } from '@mui/material';
 // form
 import { useForm } from 'react-hook-form';
 // components
@@ -124,7 +124,7 @@ export default function HomePage() {
   };
 
   return (
-    <Page title="Ecommerce: Shop" sx={{mt: 15}}>
+    <Page title="Ecommerce: Shop" sx={{my: 15}}>
       <Container maxWidth={themeStretch ? false : 'lg'}>
         {/* <HeaderBreadcrumbs
           heading="Shop"
@@ -185,6 +185,9 @@ export default function HomePage() {
 
         <ShopProductList products={filteredProducts} loading={!products.length && isDefault} />
         <CartWidget />
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 5 }}>
+          <Pagination count={10} color="primary" />
+        </Box>
       </Container>
     </Page>
   );

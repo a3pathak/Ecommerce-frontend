@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import { useNavigate } from 'react-router';
 // form
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -64,6 +65,7 @@ const CARDS_OPTIONS = [
 
 export default function CheckoutPayment() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { checkout } = useSelector((state) => state.product);
 
@@ -106,7 +108,8 @@ export default function CheckoutPayment() {
 
   const onSubmit = async () => {
     try {
-      handleNextStep();
+      // handleNextStep();
+      navigate("/invoice")
     } catch (error) {
       console.error(error);
     }

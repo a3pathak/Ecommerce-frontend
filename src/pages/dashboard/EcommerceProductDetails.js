@@ -81,9 +81,9 @@ export default function EcommerceProductDetails() {
   };
 
   return (
-    <Page title="Ecommerce: Product Details">
+    <Page title="Ecommerce: Product Details" sx={{my: 15}}>
       <Container maxWidth={themeStretch ? false : 'lg'}>
-        <HeaderBreadcrumbs
+        {/* <HeaderBreadcrumbs
           heading="Product Details"
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
@@ -97,7 +97,7 @@ export default function EcommerceProductDetails() {
             },
             { name: sentenceCase(name) },
           ]}
-        />
+        /> */}
 
         <CartWidget />
 
