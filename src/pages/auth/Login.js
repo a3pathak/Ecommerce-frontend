@@ -148,6 +148,7 @@ import { LoadingButton } from '@mui/lab';
 // components
 import { FormProvider, RHFCheckbox, RHFTextField } from '../../components/hook-form';
 import { PATH_DASHBOARD, PATH_AUTH } from '../../routes/paths';
+// import axios from '../../utils/axios';
 
 // ----------------------------------------------------------------------
 export default function Login() {
@@ -200,7 +201,9 @@ export default function Login() {
   const onSubmit = async (data) => {
     try {
       console.log(data);
-      navigate(PATH_DASHBOARD.form.root);
+      // axios.post("/login", data).then(()=>{
+        navigate(PATH_DASHBOARD.form.root);
+      // });
     } catch (error) {
       reset();
     }

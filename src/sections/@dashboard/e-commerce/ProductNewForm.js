@@ -160,7 +160,7 @@ export default function ProductNewForm({ isEdit, currentProduct }) {
         <Grid item xs={12} md={8}>
           <Card sx={{ p: 3 }}>
             <Stack spacing={3}>
-              <RHFTextField name="name" label="Product Name" />
+              <RHFTextField name="productName" label="Product Name" />
 
               <div>
                 <LabelStyle>Description</LabelStyle>
@@ -189,8 +189,8 @@ export default function ProductNewForm({ isEdit, currentProduct }) {
               <RHFSwitch name="inStock" label="In stock" />
 
               <Stack spacing={3} mt={2}>
-                <RHFTextField name="code" label="Product Code" />
-                <RHFTextField name="sku" label="Product SKU" />
+                <RHFTextField name="productCode" label="Product Code" />
+                {/* <RHFTextField name="sku" label="Product SKU" /> */}
 
                 <div>
                   <LabelStyle>Gender</LabelStyle>
@@ -215,7 +215,7 @@ export default function ProductNewForm({ isEdit, currentProduct }) {
                   ))}
                 </RHFSelect>
 
-                <Controller
+                {/* <Controller
                   name="tags"
                   control={control}
                   render={({ field }) => (
@@ -233,7 +233,7 @@ export default function ProductNewForm({ isEdit, currentProduct }) {
                       renderInput={(params) => <TextField label="Tags" {...params} />}
                     />
                   )}
-                />
+                /> */}
               </Stack>
             </Card>
 
@@ -252,7 +252,7 @@ export default function ProductNewForm({ isEdit, currentProduct }) {
                   }}
                 />
 
-                <RHFTextField
+                {/* <RHFTextField
                   name="priceSale"
                   label="Sale Price"
                   placeholder="0.00"
@@ -263,7 +263,7 @@ export default function ProductNewForm({ isEdit, currentProduct }) {
                     startAdornment: <InputAdornment position="start">$</InputAdornment>,
                     type: 'number',
                   }}
-                />
+                /> */}
               </Stack>
 
               <RHFSwitch name="taxes" label="Price includes taxes" />
