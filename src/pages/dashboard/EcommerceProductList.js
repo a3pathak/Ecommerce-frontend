@@ -19,7 +19,7 @@ import {
 } from '@mui/material';
 // redux
 import { useDispatch, useSelector } from '../../redux/store';
-import { getProducts } from '../../redux/slices/product';
+import { getProductAll } from '../../redux/slices/ecommerce';
 // utils
 import { fDate } from '../../utils/formatTime';
 import { fCurrency } from '../../utils/formatNumber';
@@ -58,25 +58,27 @@ export default function EcommerceProductList() {
   const theme = useTheme();
   const dispatch = useDispatch();
 
-  const { products } = useSelector((state) => state.product);
-
-  const [productList, setProductList] = useState([]);
+  
+  // const [productList, setProductList] = useState([]);
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [orderBy, setOrderBy] = useState('createdAt');
-
+  
   useEffect(() => {
-    dispatch(getProducts());
+    dispatch(getProductAll());
   }, [dispatch]);
+  
+  const productList  = useSelector((state) => state?.product?.productAll);
+  // useEffect(() => {
+  //   if (products?.length) {
+  //     setProductList(products);
+  //   }
+  // }, [products]);
 
-  useEffect(() => {
-    if (products.length) {
-      setProductList(products);
-    }
-  }, [products]);
+  console.log('dfkjdfkj', productList);
 
   const handleRequestSort = (property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -86,7 +88,7 @@ export default function EcommerceProductList() {
 
   const handleSelectAllClick = (checked) => {
     if (checked) {
-      const selected = productList.map((n) => n.name);
+      const selected = productList?.map((n) => n.name);
       setSelected(selected);
       return;
     }
@@ -117,23 +119,23 @@ export default function EcommerceProductList() {
     setFilterName(filterName);
   };
 
-  const handleDeleteProduct = (productId) => {
-    const deleteProduct = productList.filter((product) => product.id !== productId);
-    setSelected([]);
-    setProductList(deleteProduct);
+  const handleDeleteProduct = () => {
+    // const deleteProduct = productList?.filter((product) => product.id !== productId);
+    // setSelected([]);
+    // setProductList(deleteProduct);
   };
 
-  const handleDeleteProducts = (selected) => {
-    const deleteProducts = productList.filter((product) => !selected.includes(product.name));
-    setSelected([]);
-    setProductList(deleteProducts);
+  const handleDeleteProducts = () => {
+    // const deleteProducts = productList?.filter((product) => !selected.includes(product.name));
+    // setSelected([]);
+    // setProductList(deleteProducts);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - productList.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - productList?.length) : 0;
 
   const filteredProducts = applySortFilter(productList, getComparator(order, orderBy), filterName);
 
-  const isNotFound = !filteredProducts.length && Boolean(filterName);
+  const isNotFound = !filteredProducts?.length && Boolean(filterName);
 
   return (
     <Page title="Ecommerce: Product List">
@@ -168,17 +170,17 @@ export default function EcommerceProductList() {
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  rowCount={productList.length}
+                  rowCount={productList?.length}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
                   onSelectAllClick={handleSelectAllClick}
                 />
 
                 <TableBody>
-                  {filteredProducts.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name, cover, price, createdAt, inventoryType } = row;
+                  {filteredProducts?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                    const { id, productName, price, description, productCode, gender } = row;
 
-                    const isItemSelected = selected.indexOf(name) !== -1;
+                    const isItemSelected = selected.indexOf(id) !== -1;
 
                     return (
                       <TableRow
@@ -190,21 +192,24 @@ export default function EcommerceProductList() {
                         aria-checked={isItemSelected}
                       >
                         <TableCell padding="checkbox">
-                          <Checkbox checked={isItemSelected} onClick={() => handleClick(name)} />
+                          <Checkbox checked={isItemSelected} onClick={() => handleClick(id)} />
                         </TableCell>
                         <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
-                          <Image
+                          {/* <Image
                             disabledEffect
-                            alt={name}
-                            src={cover}
+                            alt={productName}
+                            // src={cover}
                             sx={{ borderRadius: 1.5, width: 64, height: 64, mr: 2 }}
-                          />
+                          /> */}
                           <Typography variant="subtitle2" noWrap>
-                            {name}
+                            {productName}
                           </Typography>
                         </TableCell>
-                        <TableCell style={{ minWidth: 160 }}>{fDate(createdAt)}</TableCell>
-                        <TableCell style={{ minWidth: 160 }}>
+                        <TableCell style={{ minWidth: 160 }}>{description}</TableCell>
+                        <TableCell style={{ minWidth: 160 }}>{productCode}</TableCell>
+                        <TableCell style={{ minWidth: 160 }}>{gender}</TableCell>
+                        <TableCell style={{ minWidth: 160 }}>{price}</TableCell>
+                        {/* <TableCell style={{ minWidth: 160 }}>
                           <Label
                             variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
                             color={
@@ -216,9 +221,9 @@ export default function EcommerceProductList() {
                             {inventoryType ? sentenceCase(inventoryType) : ''}
                           </Label>
                         </TableCell>
-                        <TableCell align="right">{fCurrency(price)}</TableCell>
+                        <TableCell align="right">{fCurrency(price)}</TableCell> */}
                         <TableCell align="right">
-                          <ProductMoreMenu productName={name} onDelete={() => handleDeleteProduct(id)} />
+                          <ProductMoreMenu productName={id} onDelete={() => handleDeleteProduct(id)} />
                         </TableCell>
                       </TableRow>
                     );
@@ -248,7 +253,7 @@ export default function EcommerceProductList() {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={productList.length}
+            count={productList?.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={(event, value) => setPage(value)}
@@ -279,16 +284,16 @@ function getComparator(order, orderBy) {
 }
 
 function applySortFilter(array, comparator, query) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
+  const stabilizedThis = array?.map((el, index) => [el, index]);
+  stabilizedThis?.sort((a, b) => {
     const order = comparator(a[0], b[0]);
     if (order !== 0) return order;
     return a[1] - b[1];
   });
 
   if (query) {
-    return array.filter((_product) => _product.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return array?.filter((products) => products.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
 
-  return stabilizedThis.map((el) => el[0]);
+  return stabilizedThis?.map((el) => el[0]);
 }

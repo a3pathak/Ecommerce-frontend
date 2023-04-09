@@ -10,7 +10,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { LoadingButton } from '@mui/lab';
 import { Box, Card, Grid, Stack, Switch, Typography, FormControlLabel } from '@mui/material';
 // utils
-import { fData } from '../../../utils/formatNumber';
+// import { fData } from '../../../utils/formatNumber';
+// redux
+import { useSelector, useDispatch } from 'react-redux';
+import { getUser } from '../../../redux/slices/user';
 // routes
 import { PATH_DASHBOARD } from '../../../routes/paths';
 // _mock
@@ -18,50 +21,58 @@ import { countries } from '../../../_mock';
 // components
 import Label from '../../../components/Label';
 import { FormProvider, RHFSelect, RHFSwitch, RHFTextField, RHFUploadAvatar } from '../../../components/hook-form';
-
+import axios from '../../../utils/axios'
 // ----------------------------------------------------------------------
 
 UserNewForm.propTypes = {
   isEdit: PropTypes.bool,
-  currentUser: PropTypes.object,
+  id: PropTypes.number,
 };
 
-export default function UserNewForm({ isEdit, currentUser }) {
+export default function UserNewForm({ isEdit, id }) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(()=>{
+    dispatch(getUser(id));
+  }, [dispatch, id])
+  
+  const editUser = useSelector((state) => state.user?.userEdit);
+  console.log(editUser?.userName)
 
   const { enqueueSnackbar } = useSnackbar();
 
   const NewUserSchema = Yup.object().shape({
-    userName: Yup.string().required('Name is required'),
-    email: Yup.string().required('Email is required').email(),
-    phoneNumber: Yup.string().required('Phone number is required'),
-    address: Yup.string().required('Address is required'),
-    country: Yup.string().required('country is required'),
-    company: Yup.string().required('Company is required'),
-    state: Yup.string().required('State is required'),
-    city: Yup.string().required('City is required'),
-    role: Yup.string().required('Role Number is required'),
-    avatarUrl: Yup.mixed().test('required', 'Avatar is required', (value) => value !== ''),
+    // userName: Yup.string().required('Name is required'),
+    // email: Yup.string().required('Email is required').email(),
+    // phoneNumber: Yup.string().required('Phone number is required'),
+    // address: Yup.string().required('Address is required'),
+    // country: Yup.string().required('country is required'),
+    // company: Yup.string().required('Company is required'),
+    // state: Yup.string().required('State is required'),
+    // city: Yup.string().required('City is required'),
+    // role: Yup.string().required('Role Number is required'),
+    // avatarUrl: Yup.mixed().test('required', 'Avatar is required', (value) => value !== ''),
   });
 
   const defaultValues = useMemo(
     () => ({
-      userName: currentUser?.userName || '',
-      email: currentUser?.email || '',
-      phoneNumber: currentUser?.phoneNumber || '',
-      address: currentUser?.address || '',
-      country: currentUser?.country || '',
-      state: currentUser?.state || '',
-      city: currentUser?.city || '',
-      zipCode: currentUser?.zipCode || '',
-      avatarUrl: currentUser?.avatarUrl || '',
-      isVerified: currentUser?.isVerified || true,
-      status: currentUser?.status,
-      company: currentUser?.company || '',
-      role: currentUser?.role || '',
+      userName: '',
+      email: '',
+      phoneNumber: '',
+      address: '',
+      country: '',
+      state: '',
+      city: '',
+      zipCode: '',
+      avatarUrl: '',
+      isVerified: true,
+      status: '',
+      company: '',
+      role: '',
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [currentUser]
+    []
   );
 
   const methods = useForm({
@@ -81,18 +92,41 @@ export default function UserNewForm({ isEdit, currentUser }) {
   const values = watch();
 
   useEffect(() => {
-    if (isEdit && currentUser) {
+    if (isEdit && id) {
       reset(defaultValues);
     }
     if (!isEdit) {
       reset(defaultValues);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isEdit, currentUser]);
+  }, [isEdit, id]);
 
-  const onSubmit = async () => {
+  useEffect(()=>{
+    if (isEdit){
+      // setValue("status", editUser.status);
+      setValue("isVerified", editUser?.isVerified);
+      setValue("userName", editUser?.userName);
+      setValue("email", editUser?.email);
+      setValue("phoneNumber", editUser?.phoneNumber);
+      setValue("country", editUser?.country);
+      setValue("state", editUser?.state);
+      setValue("city", editUser?.city);
+      setValue("address", editUser?.address);
+      setValue("zipCode", editUser?.zipCode);
+      setValue("company", editUser?.company);
+      setValue("role", editUser?.role);
+    }
+  }, [isEdit, setValue, editUser]);
+
+  const onSubmit = async (data) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      console.log(data);
+      if (isEdit){
+        await axios.put(`/user/${id}`, data)
+      }
+      else{
+        await axios.post('/user', data)
+      }
       reset();
       enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
       navigate(PATH_DASHBOARD.user.list);
@@ -101,21 +135,21 @@ export default function UserNewForm({ isEdit, currentUser }) {
     }
   };
 
-  const handleDrop = useCallback(
-    (acceptedFiles) => {
-      const file = acceptedFiles[0];
+  // const handleDrop = useCallback(
+  //   (acceptedFiles) => {
+  //     const file = acceptedFiles[0];
 
-      if (file) {
-        setValue(
-          'avatarUrl',
-          Object.assign(file, {
-            preview: URL.createObjectURL(file),
-          })
-        );
-      }
-    },
-    [setValue]
-  );
+  //     if (file) {
+  //       setValue(
+  //         'avatarUrl',
+  //         Object.assign(file, {
+  //           preview: URL.createObjectURL(file),
+  //         })
+  //       );
+  //     }
+  //   },
+  //   [setValue]
+  // );
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
@@ -136,7 +170,7 @@ export default function UserNewForm({ isEdit, currentUser }) {
                 name="avatarUrl"
                 accept="image/*"
                 maxSize={3145728}
-                onDrop={handleDrop}
+                // onDrop={handleDrop}
                 helperText={
                   <Typography
                     variant="caption"
@@ -149,7 +183,7 @@ export default function UserNewForm({ isEdit, currentUser }) {
                     }}
                   >
                     Allowed *.jpeg, *.jpg, *.png, *.gif
-                    <br /> max size of {fData(3145728)}
+                    {/* <br /> max size of {fData(3145728)} */}
                   </Typography>
                 }
               />
