@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
-import { paramCase } from 'change-case';
+// import { paramCase } from 'change-case';
 import { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+// import { Link as RouterLink } from 'react-ro uter-dom';
 // @mui
 import { MenuItem, IconButton } from '@mui/material';
 // routes
-import { PATH_DASHBOARD } from '../../../../routes/paths';
+// import { PATH_DASHBOARD } from '../../../../routes/paths';
 // components
 import Iconify from '../../../../components/Iconify';
 import MenuPopover from '../../../../components/MenuPopover';
@@ -58,7 +58,8 @@ export default function ProductMoreMenu({ onDelete, productName }) {
           Delete
         </MenuItem>
 
-        <MenuItem component={RouterLink} to={`${PATH_DASHBOARD.eCommerce.root}/product/${paramCase(productName)}/edit`}>
+        {/* <MenuItem component={RouterLink} to={`${PATH_DASHBOARD.eCommerce.root}/product/${paramCase(productName)}/edit`}> */}
+        <MenuItem>
           <Iconify icon={'eva:edit-fill'} sx={{ ...ICON }} />
           Edit
         </MenuItem>

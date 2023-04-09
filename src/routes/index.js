@@ -6,7 +6,7 @@ import DashboardLayout from '../layouts/dashboard';
 import LogoOnlyLayout from '../layouts/LogoOnlyLayout';
 // guards
 import GuestGuard from '../guards/GuestGuard';
-import AuthGuard from '../guards/AuthGuard';
+// import AuthGuard from '../guards/AuthGuard';
 // import RoleBasedGuard from '../guards/RoleBasedGuard';
 // config
 import { PATH_AFTER_LOGIN } from '../config';
@@ -69,7 +69,7 @@ export default function Router() {
         {
           path: 'e-commerce',
           children: [
-            { element: <Navigate to="/dashboard/e-commerce/shop" replace />, index: true },
+            { element: <Navigate to="/dashboard/e-commerce/list" replace />, index: true },
             // { path: 'shop', element: <EcommerceShop /> },
             // { path: 'product/:name', element: <EcommerceProductDetails /> },
             { path: 'list', element: <EcommerceProductList /> },
@@ -80,14 +80,20 @@ export default function Router() {
           ],
         },
         {
+          path: 'branch',
+          children: [
+            { element: <Navigate to="/dashboard/branch" replace />, index: true },
+          ],
+        },
+        {
           path: 'user',
           children: [
-            { element: <Navigate to="/dashboard/user/profile" replace />, index: true },
+            { element: <Navigate to="/dashboard/user/list" />, index: true },
             { path: 'profile', element: <UserProfile /> },
             { path: 'cards', element: <UserCards /> },
-            { path: 'list', element: <UserList /> },
-            { path: 'new', element: <UserCreate /> },
-            { path: ':name/edit', element: <UserCreate /> },
+            { path: 'list', element: <Users /> },
+            { path: 'new', element: <NewUser /> },
+            { path: 'edit/:id', element: <NewUser /> },
             { path: 'account', element: <UserAccount /> },  
           ],
         },
@@ -143,9 +149,9 @@ const EcommerceCheckout = Loadable(lazy(() => import('../pages/dashboard/Ecommer
 const EcommerceInvoice = Loadable(lazy(() => import('../pages/dashboard/EcommerceInvoice')));
 const UserProfile = Loadable(lazy(() => import('../pages/dashboard/UserProfile')));
 const UserCards = Loadable(lazy(() => import('../pages/dashboard/UserCards')));
-const UserList = Loadable(lazy(() => import('../pages/dashboard/UserList')));
+const Users = Loadable(lazy(() => import('../pages/dashboard/Users')));
 const UserAccount = Loadable(lazy(() => import('../pages/dashboard/UserAccount')));
-const UserCreate = Loadable(lazy(() => import('../pages/dashboard/UserCreate')));
+const NewUser = Loadable(lazy(() => import('../pages/dashboard/NewUser')));
 // Main
 const HomePage = Loadable(lazy(() => import('../pages/Home')));
 const About = Loadable(lazy(() => import('../pages/About')));

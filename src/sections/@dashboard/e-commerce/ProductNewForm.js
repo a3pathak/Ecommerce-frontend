@@ -4,12 +4,14 @@ import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router-dom';
 import { useCallback, useEffect, useMemo } from 'react';
 // form
-import { useForm, Controller } from 'react-hook-form';
+// import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
 import { styled } from '@mui/material/styles';
 import { LoadingButton } from '@mui/lab';
-import { Card, Chip, Grid, Stack, TextField, Typography, Autocomplete, InputAdornment } from '@mui/material';
+// import { Card, Chip, Grid, Stack, TextField, Typography, Autocomplete, InputAdornment } from '@mui/material';
+import { Card, Grid, Stack, Typography, InputAdornment } from '@mui/material';
 // routes
 import { PATH_DASHBOARD } from '../../../routes/paths';
 // components
@@ -22,6 +24,7 @@ import {
   RHFRadioGroup,
   RHFUploadMultiFile,
 } from '../../../components/hook-form';
+import axios from '../../../utils/axios';
 
 // ----------------------------------------------------------------------
 
@@ -59,49 +62,49 @@ const LabelStyle = styled(Typography)(({ theme }) => ({
 
 ProductNewForm.propTypes = {
   isEdit: PropTypes.bool,
-  currentProduct: PropTypes.object,
+  id: PropTypes.number,
 };
 
-export default function ProductNewForm({ isEdit, currentProduct }) {
+export default function ProductNewForm({ isEdit, id }) {
   const navigate = useNavigate();
 
   const { enqueueSnackbar } = useSnackbar();
 
   const NewProductSchema = Yup.object().shape({
-    name: Yup.string().required('Name is required'),
-    description: Yup.string().required('Description is required'),
+    // name: Yup.string().required('Name is required'),
+    // description: Yup.string().required('Description is required'),
     images: Yup.array().min(1, 'Images is required'),
     price: Yup.number().moreThan(0, 'Price should not be $0.00'),
   });
 
-  const defaultValues = useMemo(
-    () => ({
-      name: currentProduct?.name || '',
-      description: currentProduct?.description || '',
-      images: currentProduct?.images || [],
-      code: currentProduct?.code || '',
-      sku: currentProduct?.sku || '',
-      price: currentProduct?.price || 0,
-      priceSale: currentProduct?.priceSale || 0,
-      tags: currentProduct?.tags || [TAGS_OPTION[0]],
-      inStock: true,
-      taxes: true,
-      gender: currentProduct?.gender || GENDER_OPTION[2],
-      category: currentProduct?.category || CATEGORY_OPTION[0].classify[1],
-    }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [currentProduct]
-  );
+  // const defaultValues = useMemo(
+  //   () => ({
+  //     productName: currentProduct?.productName || '',
+  //     description: currentProduct?.description || '',
+  //     // images: currentProduct?.images || [],
+  //     // code: currentProduct?.code || '',
+  //     // sku: currentProduct?.sku || '',
+  //     price: currentProduct?.price || 0,
+  //     // priceSale: currentProduct?.priceSale || 0,
+  //     // tags: currentProduct?.tags || [TAGS_OPTION[0]],
+  //     inStock: true,
+  //     taxes: true,
+  //     gender: currentProduct?.gender || GENDER_OPTION[2],
+  //     category: currentProduct?.category || CATEGORY_OPTION[0].classify[1],
+  //   }),
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   [currentProduct]
+  // );
 
   const methods = useForm({
     resolver: yupResolver(NewProductSchema),
-    defaultValues,
+    // defaultValues,
   });
 
   const {
     reset,
     watch,
-    control,
+    // control,
     setValue,
     getValues,
     handleSubmit,
@@ -110,19 +113,25 @@ export default function ProductNewForm({ isEdit, currentProduct }) {
 
   const values = watch();
 
-  useEffect(() => {
-    if (isEdit && currentProduct) {
-      reset(defaultValues);
-    }
-    if (!isEdit) {
-      reset(defaultValues);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isEdit, currentProduct]);
+  // useEffect(() => {
+  //   if (isEdit && id) {
+  //     reset(defaultValues);
+  //   }
+  //   if (!isEdit) {
+  //     reset(defaultValues);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [isEdit, id]);
 
-  const onSubmit = async () => {
+  const onSubmit = async (data) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      // await new Promise((resolve) => setTimeout(resolve, 500));
+      if (isEdit){
+        await axios.put(`/product/${id}`, data);
+      }
+      else{
+        await axios.post('/product', data);
+      }
       reset();
       enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
       navigate(PATH_DASHBOARD.eCommerce.list);
@@ -131,28 +140,28 @@ export default function ProductNewForm({ isEdit, currentProduct }) {
     }
   };
 
-  const handleDrop = useCallback(
-    (acceptedFiles) => {
-      setValue(
-        'images',
-        acceptedFiles.map((file) =>
-          Object.assign(file, {
-            preview: URL.createObjectURL(file),
-          })
-        )
-      );
-    },
-    [setValue]
-  );
+  // const handleDrop = useCallback(
+  //   (acceptedFiles) => {
+  //     setValue(
+  //       'images',
+  //       acceptedFiles.map((file) =>
+  //         Object.assign(file, {
+  //           preview: URL.createObjectURL(file),
+  //         })
+  //       )
+  //     );
+  //   },
+  //   [setValue]
+  // );
 
-  const handleRemoveAll = () => {
-    setValue('images', []);
-  };
+  // const handleRemoveAll = () => {
+  //   setValue('images', []);
+  // };
 
-  const handleRemove = (file) => {
-    const filteredItems = values.images?.filter((_file) => _file !== file);
-    setValue('images', filteredItems);
-  };
+  // const handleRemove = (file) => {
+  //   const filteredItems = values.images?.filter((_file) => _file !== file);
+  //   setValue('images', filteredItems);
+  // };
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
@@ -167,7 +176,7 @@ export default function ProductNewForm({ isEdit, currentProduct }) {
                 <RHFEditor simple name="description" />
               </div>
 
-              <div>
+              {/* <div>
                 <LabelStyle>Images</LabelStyle>
                 <RHFUploadMultiFile
                   name="images"
@@ -178,7 +187,7 @@ export default function ProductNewForm({ isEdit, currentProduct }) {
                   onRemove={handleRemove}
                   onRemoveAll={handleRemoveAll}
                 />
-              </div>
+              </div> */}
             </Stack>
           </Card>
         </Grid>

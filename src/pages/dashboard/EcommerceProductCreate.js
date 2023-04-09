@@ -21,14 +21,14 @@ export default function EcommerceProductCreate() {
   const { themeStretch } = useSettings();
   const dispatch = useDispatch();
   const { pathname } = useLocation();
-  const { name } = useParams();
-  const { products } = useSelector((state) => state.product);
+  const { id } = useParams();
+  // const { products } = useSelector((state) => state.product);
   const isEdit = pathname.includes('edit');
-  const currentProduct = products.find((product) => paramCase(product.name) === name);
+  // const currentProduct = products.find((product) => paramCase(product.name) === name);
 
-  useEffect(() => {
-    dispatch(getProducts());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getProducts());
+  // }, [dispatch]);
 
   return (
     <Page title="Ecommerce: Create a new product">
@@ -41,11 +41,11 @@ export default function EcommerceProductCreate() {
               name: 'E-Commerce',
               href: PATH_DASHBOARD.eCommerce.root,
             },
-            { name: !isEdit ? 'New product' : name },
+            { name: !isEdit ? 'New product' : "Edit Product" },
           ]}
         />
 
-        <ProductNewForm isEdit={isEdit} currentProduct={currentProduct} />
+        <ProductNewForm isEdit={isEdit} id={id} />
       </Container>
     </Page>
   );
