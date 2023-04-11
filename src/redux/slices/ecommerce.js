@@ -40,7 +40,7 @@ export const {
     getProduct
 } = slice.actions;
 
-export function getProductAll(){
+export function                 getProductAll(){
     return async () => {
         dispatch(slice.actions.startLoading());
         try{

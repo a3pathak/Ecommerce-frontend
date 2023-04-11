@@ -38,7 +38,7 @@ export default function UserNewForm({ isEdit, id }) {
   }, [dispatch, id])
   
   const editUser = useSelector((state) => state.user?.userEdit);
-  console.log(editUser?.userName)
+  console.log(editUser?.userName);
 
   const { enqueueSnackbar } = useSnackbar();
 
