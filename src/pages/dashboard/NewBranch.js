@@ -12,7 +12,7 @@ import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 import BranchNewForm from '../../sections/@dashboard/branch/BranchForm';
 // ----------------------------------------------------------------------
 
-export default function NewUser() {
+export default function NewBranch() {
   const { themeStretch } = useSettings();
   const { pathname } = useLocation();
   const { id } = useParams();

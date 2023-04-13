@@ -58,11 +58,11 @@ export default function HomePage() {
   const filteredProducts = applyFilter(products, sortBy, filters);
 
   const defaultValues = {
-    gender: filters.gender,
-    category: filters.category,
-    colors: filters.colors,
-    priceRange: filters.priceRange,
-    rating: filters.rating,
+    gender: filters?.gender,
+    category: filters?.category,
+    colors: filters?.colors,
+    priceRange: filters?.priceRange,
+    rating: filters?.rating,
   };
 
   const methods = useForm({
@@ -74,11 +74,11 @@ export default function HomePage() {
   const values = watch();
 
   const isDefault =
-    !values.priceRange &&
-    !values.rating &&
-    values.gender.length === 0 &&
-    values.colors.length === 0 &&
-    values.category === 'All';
+    !values?.priceRange &&
+    !values?.rating &&
+    values?.gender?.length === 0 &&
+    values?.colors?.length === 0 &&
+    values?.category === 'All';
 
   useEffect(() => {
     dispatch(getProducts());
@@ -165,7 +165,7 @@ export default function HomePage() {
           {!isDefault && (
             <>
               <Typography variant="body2" gutterBottom>
-                <strong>{filteredProducts.length}</strong>
+                <strong>{filteredProducts?.length}</strong>
                 &nbsp;Products found
               </Typography>
 
@@ -183,7 +183,7 @@ export default function HomePage() {
           )}
         </Stack>
 
-        <ShopProductList products={filteredProducts} loading={!products.length && isDefault} />
+        <ShopProductList products={filteredProducts} loading={!products?.length && isDefault} />
         <CartWidget />
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 5 }}>
           <Pagination count={10} color="primary" />
@@ -211,35 +211,35 @@ function applyFilter(products, sortBy, filters) {
     products = orderBy(products, ['price'], ['asc']);
   }
   // FILTER PRODUCTS
-  if (filters.gender.length > 0) {
-    products = products.filter((product) => filters.gender.includes(product.gender));
+  if (filters?.gender?.length > 0) {
+    products = products?.filter((product) => filters?.gender?.includes(product.gender));
   }
-  if (filters.category !== 'All') {
-    products = products.filter((product) => product.category === filters.category);
+  if (filters?.category !== 'All') {
+    products = products?.filter((product) => product.category === filters?.category);
   }
-  if (filters.colors.length > 0) {
+  if (filters?.colors?.length > 0) {
     products = products.filter((product) => product.colors.some((color) => filters.colors.includes(color)));
   }
-  if (filters.priceRange) {
-    products = products.filter((product) => {
-      if (filters.priceRange === 'below') {
-        return product.price < 25;
+  if (filters?.priceRange) {
+    products = products?.filter((product) => {
+      if (filters?.priceRange === 'below') {
+        return product?.price < 25;
       }
-      if (filters.priceRange === 'between') {
-        return product.price >= 25 && product.price <= 75;
+      if (filters?.priceRange === 'between') {
+        return product?.price >= 25 && product?.price <= 75;
       }
-      return product.price > 75;
+      return product?.price > 75;
     });
   }
-  if (filters.rating) {
-    products = products.filter((product) => {
+  if (filters?.rating) {
+    products = products?.filter((product) => {
       const convertRating = (value) => {
         if (value === 'up4Star') return 4;
         if (value === 'up3Star') return 3;
         if (value === 'up2Star') return 2;
         return 1;
       };
-      return product.totalRating > convertRating(filters.rating);
+      return product?.totalRating > convertRating(filters.rating);
     });
   }
   return products;
