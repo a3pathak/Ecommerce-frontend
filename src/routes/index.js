@@ -82,7 +82,9 @@ export default function Router() {
         {
           path: 'branch',
           children: [
-            { element: <Navigate to="/dashboard/branch" replace />, index: true },
+            { element: <Navigate to="/dashboard/ecommerce/branch" replace />, index: true },
+            { path: 'branch', element: <EcommerceNewBranch /> },
+
           ],
         },
         {
@@ -152,6 +154,7 @@ const UserCards = Loadable(lazy(() => import('../pages/dashboard/UserCards')));
 const Users = Loadable(lazy(() => import('../pages/dashboard/Users')));
 const UserAccount = Loadable(lazy(() => import('../pages/dashboard/UserAccount')));
 const NewUser = Loadable(lazy(() => import('../pages/dashboard/NewUser')));
+const NewBranch = Loadable(lazy(() => import('../sections/@dashboard/e-commerce/branch')));
 // Main
 const HomePage = Loadable(lazy(() => import('../pages/Home')));
 const About = Loadable(lazy(() => import('../pages/About')));

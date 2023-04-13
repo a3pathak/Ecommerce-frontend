@@ -31,11 +31,12 @@ const navConfig = [
       { title: 'Profile', path: PATH_DASHBOARD.user.profile, icon: ICONS.blog },
       { title: 'Users', path: PATH_DASHBOARD.user.list, icon: ICONS.user },
       { title: 'Products', path: PATH_DASHBOARD.eCommerce.list, icon: ICONS.cart },
+      // { title: 'Branch', path: PATH_DASHBOARD.eCommerce.branch, icon: ICONS.cart },
       { title: 'Setting', path: PATH_DASHBOARD.eCommerce.list, icon: ICONS.booking },
       { title: 'Notification', path: PATH_DASHBOARD.eCommerce.list, icon: ICONS.analytics },
     ],
   }
 
-];
+];  
 
 export default navConfig;

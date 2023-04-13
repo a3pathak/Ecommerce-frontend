@@ -57,6 +57,9 @@ export const PATH_DASHBOARD = {
     checkout: path(ROOTS_DASHBOARD, '/e-commerce/checkout'),
     invoice: path(ROOTS_DASHBOARD, '/e-commerce/invoice')
   },
+  branch:{
+    root: path(ROOTS_DASHBOARD, '/e-commerce/branch'),
+  }
 };
 
 export const PATH_DOCS = 'https://docs-minimals.vercel.app/introduction';
