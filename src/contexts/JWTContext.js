@@ -1,3 +1,4 @@
+import jwtDecode from 'jwt-decode';
 import { createContext, useEffect, useReducer } from 'react';
 import PropTypes from 'prop-types';
 // utils
@@ -74,8 +75,7 @@ function AuthProvider({ children }) {
         if (accessToken && isValidToken(accessToken)) {
           setSession(accessToken);
 
-          const response = await axios.get('/api/account/my-account');
-          const { user } = response.data;
+          const user = jwtDecode(accessToken);
 
           dispatch({
             type: 'INITIALIZE',
@@ -109,13 +109,13 @@ function AuthProvider({ children }) {
   }, []);
 
   const login = async (email, password) => {
-    const response = await axios.post('/api/account/login', {
-      email,
-      password,
-    });
-    const { accessToken, user } = response.data;
-
+    const credentials = new FormData();
+    credentials.append('username', email);
+    credentials.append('password', password);
+    const response = await axios.post('/login', credentials);
+    const accessToken = response.data.access_token;
     setSession(accessToken);
+    const user = jwtDecode(accessToken);
     dispatch({
       type: 'LOGIN',
       payload: {
@@ -124,22 +124,28 @@ function AuthProvider({ children }) {
     });
   };
 
-  const register = async (email, password, firstName, lastName) => {
-    const response = await axios.post('/api/account/register', {
+  const register = async (email, password, mobile, companyName , state, gstNo, customerName, coupon,otpVerify) => {
+    const response = await axios.post('/register', {
       email,
       password,
-      firstName,
-      lastName,
+      mobile,
+      customerName,
+      companyName,
+      gstNo,
+      state,
+      coupon,
+      otpVerify,
     });
-    const { accessToken, user } = response.data;
-
-    window.localStorage.setItem('accessToken', accessToken);
+    const accessToken = response.data.access_token;
+    setSession(accessToken);
+    const user = jwtDecode(accessToken);
     dispatch({
       type: 'REGISTER',
       payload: {
         user,
       },
     });
+    
   };
 
   const logout = async () => {
@@ -154,7 +160,7 @@ function AuthProvider({ children }) {
         method: 'jwt',
         login,
         logout,
-        register,
+        register
       }}
     >
       {children}
