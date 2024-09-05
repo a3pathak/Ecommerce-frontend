@@ -37,7 +37,7 @@ const RootStyle = styled(RouterLink)(({ theme }) => ({
 
 export default function CartWidget() {
   const { checkout } = useSelector((state) => state.product);
-  const totalItems = sum(checkout.cart.map((item) => item.quantity));
+  const totalItems = sum(checkout?.cart?.map((item) => item.quantity));
 
   return (
     // <RootStyle to={PATH_DASHBOARD.eCommerce.checkout}>

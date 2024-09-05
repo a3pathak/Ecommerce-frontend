@@ -53,7 +53,7 @@ export default function HomePage() {
 
   const [openFilter, setOpenFilter] = useState(false);
 
-  const { products, sortBy, filters } = useSelector((state) => state.product);
+  const { products, sortBy, filters } = useSelector((state) => state?.product);
 
   const filteredProducts = applyFilter(products, sortBy, filters);
 
@@ -169,7 +169,7 @@ export default function HomePage() {
                 &nbsp;Products found
               </Typography>
 
-              <ShopTagFiltered
+              {/* <ShopTagFiltered
                 filters={filters}
                 isShowReset={!isDefault && !openFilter}
                 onRemoveGender={handleRemoveGender}
@@ -178,7 +178,7 @@ export default function HomePage() {
                 onRemovePrice={handleRemovePrice}
                 onRemoveRating={handleRemoveRating}
                 onResetAll={handleResetFilter}
-              />
+              /> */}
             </>
           )}
         </Stack>

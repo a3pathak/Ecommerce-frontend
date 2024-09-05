@@ -39,7 +39,7 @@ export default function EcommerceShop() {
   const filteredProducts = applyFilter(products, sortBy, filters);
 
   const defaultValues = {
-    gender: filters.gender,
+    gender: filters?.gender,
     category: filters.category,
     colors: filters.colors,
     priceRange: filters.priceRange,
@@ -57,7 +57,7 @@ export default function EcommerceShop() {
   const isDefault =
     !values.priceRange &&
     !values.rating &&
-    values.gender.length === 0 &&
+    values?.gender?.length === 0 &&
     values.colors.length === 0 &&
     values.category === 'All';
 
@@ -83,7 +83,7 @@ export default function EcommerceShop() {
   };
 
   const handleRemoveGender = (value) => {
-    const newValue = filters.gender.filter((item) => item !== value);
+    const newValue = filters?.gender.filter((item) => item !== value);
     setValue('gender', newValue);
   };
 
@@ -188,8 +188,8 @@ function applyFilter(products, sortBy, filters) {
     products = orderBy(products, ['price'], ['asc']);
   }
   // FILTER PRODUCTS
-  if (filters.gender.length > 0) {
-    products = products.filter((product) => filters.gender.includes(product.gender));
+  if (filters?.gender.length > 0) {
+    products = products.filter((product) => filters?.gender.includes(product?.gender));
   }
   if (filters.category !== 'All') {
     products = products.filter((product) => product.category === filters.category);
